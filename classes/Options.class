@@ -1,0 +1,118 @@
+<?php
+
+/**
+ * Generate the options page
+ */
+if(!class_exists('Net_Locomotion_Search_Options')) {
+  class Net_Locomotion_Search_Options {
+    private $search_by_net_locomotion_options;
+
+    public function __construct() {
+      add_action( 'admin_menu', array( $this, 'search_by_net_locomotion_add_plugin_page' ) );
+      add_action( 'admin_init', array( $this, 'search_by_net_locomotion_page_init' ) );
+    }
+
+    public function search_by_net_locomotion_add_plugin_page() {
+      add_menu_page(
+        'Search by Net Locomotion', // page_title
+        'Search by Net Locomotion', // menu_title
+        'manage_options', // capability
+        'search-by-net-locomotion', // menu_slug
+        array( $this, 'search_by_net_locomotion_create_admin_page' ), // function
+        'dashicons-search', // icon_url
+        99 // position
+      );
+    }
+
+    public function search_by_net_locomotion_create_admin_page() {
+      $this->search_by_net_locomotion_options = get_option( 'search_by_net_locomotion_option_name' ); ?>
+
+      <div class="wrap">
+        <h2>Search by Net Locomotion</h2>
+        <p>Set your search options here</p>
+        <?php settings_errors(); ?>
+
+        <form method="post" action="options.php">
+          <?php
+          settings_fields( 'search_by_net_locomotion_option_group' );
+          do_settings_sections( 'search-by-net-locomotion-admin' );
+          submit_button();
+          ?>
+        </form>
+      </div>
+    <?php }
+
+    public function search_by_net_locomotion_page_init() {
+      register_setting(
+        'search_by_net_locomotion_option_group', // option_group
+        'search_by_net_locomotion_option_name', // option_name
+        array( $this, 'search_by_net_locomotion_sanitize' ) // sanitize_callback
+      );
+
+      add_settings_section(
+        'search_by_net_locomotion_setting_section', // id
+        'Settings', // title
+        array( $this, 'search_by_net_locomotion_section_info' ), // callback
+        'search-by-net-locomotion-admin' // page
+        );
+
+        add_settings_field(
+        'search_url_0', // id
+        'Search URL', // title
+        array( $this, 'search_url_0_callback' ), // callback
+        'search-by-net-locomotion-admin', // page
+        'search_by_net_locomotion_setting_section' // section
+        );
+
+        add_settings_field(
+        'number_of_results_per_page_1', // id
+        'Number of results per page', // title
+        array( $this, 'number_of_results_per_page_1_callback' ), // callback
+        'search-by-net-locomotion-admin', // page
+        'search_by_net_locomotion_setting_section' // section
+      );
+    }
+
+    public function search_by_net_locomotion_sanitize($input) {
+      $sanitary_values = array();
+      if ( isset( $input['search_url_0'] ) ) {
+        $sanitary_values['search_url_0'] = sanitize_text_field( $input['search_url_0'] );
+      }
+
+      if ( isset( $input['number_of_results_per_page_1'] ) ) {
+        $sanitary_values['number_of_results_per_page_1'] = sanitize_text_field( $input['number_of_results_per_page_1'] );
+      }
+
+      return $sanitary_values;
+    }
+
+    public function search_by_net_locomotion_section_info() {
+
+    }
+
+    public function search_url_0_callback() {
+      printf(
+      '<input class="regular-text" type="text" name="search_by_net_locomotion_option_name[search_url_0]" id="search_url_0" value="%s">',
+      isset( $this->search_by_net_locomotion_options['search_url_0'] ) ? esc_attr( $this->search_by_net_locomotion_options['search_url_0']) : ''
+      );
+    }
+
+    public function number_of_results_per_page_1_callback() {
+      printf(
+      '<input class="regular-text" type="text" name="search_by_net_locomotion_option_name[number_of_results_per_page_1]" id="number_of_results_per_page_1" value="%s">',
+      isset( $this->search_by_net_locomotion_options['number_of_results_per_page_1'] ) ? esc_attr( $this->search_by_net_locomotion_options['number_of_results_per_page_1']) : ''
+      );
+    }
+
+  }
+  if ( is_admin() )
+  $search_by_net_locomotion = new SearchByNetLocomotion();
+
+  /*
+  * Retrieve this value with:
+  * $search_by_net_locomotion_options = get_option( 'search_by_net_locomotion_option_name' ); // Array of All Options
+  * $search_url_0 = $search_by_net_locomotion_options['search_url_0']; // Search URL
+  * $number_of_results_per_page_1 = $search_by_net_locomotion_options['number_of_results_per_page_1']; // Number of results per page
+  */
+
+}
