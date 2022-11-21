@@ -13,7 +13,7 @@ if (!class_exists('Net_Locomotion_Search_Shortcodes')) {
     public function searchForm() {
       ?>
       <form method="get" action="/search/">
-        <input type="text" name="q" placeholder="Search" class="nl-search-field" /><button type="submit" class="nl-search-button"><i class="fa fa-search"> </i></button>
+        <input type="text" name="q" placeholder="Search" class="nl-search-field" /><button type="submit" class="nl-search-button" aria-label="Search"><i class="fa fa-search"> </i></button>
       </form>
       <style type="text/css">
       .nl-search-button {
