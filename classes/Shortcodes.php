@@ -71,7 +71,7 @@ if (!class_exists('Net_Locomotion_Search_Shortcodes')) {
          WHERE (post_title LIKE "%' . $q . '%"
          OR post_content LIKE "%' . $q . '%")
          AND post_status = "publish"
-         AND post_type = "post"'
+         AND post_type = IN ("post", "page")'
       );
       $total = $total[0]->total;
 
