@@ -74,7 +74,7 @@ if (!class_exists('Net_Locomotion_Search_Shortcodes')) {
          AND post_type IN ("post", "page")'
       );
       $total = $total[0]->total;
-var_dump($total);
+
       // Go through the results
       foreach ($results as $result) {
         $content = strip_shortcodes($result->post_content);
