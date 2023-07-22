@@ -21,7 +21,7 @@
 if (!function_exists('Net_Locomotion_Search_Autoloader')) {
   function Net_Locomotion_Search_Autoloader($className) {
     $className = str_replace('Net_Locomotion_Search_', '', $className);
-    include(__DIR__ . '/classes/' . $className . '.php');
+    @include(__DIR__ . '/classes/' . $className . '.php');
   }
   spl_autoload_register('Net_Locomotion_Search_Autoloader');
 }

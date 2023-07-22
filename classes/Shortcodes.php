@@ -12,10 +12,13 @@ if (!class_exists('Net_Locomotion_Search_Shortcodes')) {
      */
     public function searchForm() {
       ?>
-      <form method="get" action="/search/">
+      <form class="nl-search-form" method="get" action="/search/">
         <input type="text" name="q" placeholder="Search" class="nl-search-field" /><button type="submit" class="nl-search-button" aria-label="Search"><i class="fa fa-search"> </i></button>
       </form>
       <style type="text/css">
+      .nl-search-form {
+        display: flex;
+      }
       .nl-search-button {
       	background-color: #81153F;
       	color: #fff;
